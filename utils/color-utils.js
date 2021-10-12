@@ -31,3 +31,18 @@ export function colorLuminance(hex, lum) {
 
   return rgb
 }
+export function calculateLuminance(color) {
+  color = hexToRgb(color);
+  color = [color.r,color.g,color.b]
+  const normalizedColor = color.map(channel => channel / 255)
+  const gammaCorrectedRGB = normalizedColor.map(channel =>
+      channel <= 0.03928
+          ? channel / 12.92
+          : Math.pow((channel + 0.055) / 1.055, 2.4)
+  )
+  const luminance =
+      gammaCorrectedRGB[0] * 0.2126 +
+      gammaCorrectedRGB[1] * 0.7152 +
+      gammaCorrectedRGB[2] * 0.0722
+  return luminance
+}

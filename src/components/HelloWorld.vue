@@ -1,8 +1,9 @@
 <template>
   <div class="hello">
-    <Button color="#d1d1d1" intensity="0.2" background-color="#d1d1d1">
+    <Button color="#3DB400" intensity="0.2" background-color="#F2F2F2">
       <span>버튼테스트</span>
     </Button>
+    <Base class="asdf"/>
   </div>
 </template>
 
@@ -21,9 +22,15 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+.asdf {
+  width: 120px;
+  height: 120px;
+}
+
 h3 {
   margin: 40px 0 0;
 }
+
 ul {
   list-style-type: none;
   padding: 0;
@@ -41,7 +48,7 @@ a {
 button {
   height: 48px;
   width: 120px;
-  color:#000 !important;
-  border-radius:10px;
+  color: #000 !important;
+  border-radius: 10px;
 }
 </style>

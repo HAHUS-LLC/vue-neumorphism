@@ -1,21 +1,28 @@
 <template>
-  <button @click="click" class="style" :style="cssProps">
+  <div @click="click" @focus="focus" :style="cssProps">
+    <div class="style">
+      <slot></slot>
+    </div>
     <div class="hover">
       <slot></slot>
     </div>
+    <div></div>
     <div class="active">
       <slot></slot>
     </div>
+    <div class="focus">
+      <slot></slot>
+    </div>
     <slot></slot>
-  </button>
+  </div>
 </template>
 
 <script>
 // eslint-disable-next-line no-unused-vars
-import {hexToRgb, rgbToHex, colorLuminance, calculateLuminance} from "../../utils/color-utils";
+import {hexToRgb, rgbToHex, colorLuminance} from "../../utils/color-utils";
 
 export default {
-  name: "Button",
+  name: "Base",
   methods: {
     click: function (e) {
       this.$emit('click', e);
@@ -23,17 +30,16 @@ export default {
     darkerGradient: function () {
       console.log(this.shape !== 1 ? colorLuminance(this.color, 0.07) : this.color)
       console.log(this.shape !== 1 ? colorLuminance(this.color, -0.1) : this.color)
-      console.log(calculateLuminance(this.color),calculateLuminance(colorLuminance(this.color, -0.1)),)
-      return this.shape !== 1 ? colorLuminance(this.color, -0.1) : this.color
+      return colorLuminance(this.color, -0.1)
     },
     brightGradient: function () {
-      return this.shape !== 1 ? colorLuminance(this.color, 0.17) : this.color
+      return colorLuminance(this.color, 0.17)
     },
     secondDarkerGradient: function () {
-      return this.shape !== 1 ? colorLuminance(this.color, -0.2) : this.color
+      return colorLuminance(this.color, -0.2)
     },
     secondBrightGradient: function () {
-      return this.shape !== 1 ? colorLuminance(this.color, 0.37) : this.color
+      return colorLuminance(this.color, 0.37)
     },
     darkerShadow: function () {
       return colorLuminance(this.backgroundColor, this.intensity * -1)
@@ -57,13 +63,25 @@ export default {
       type: Number,
       default: 1
     },
-    'shape': {
-      type: Number,
-      default: 2,
-    },
     'intensity': {
       type: Number,
       default: 0.15,
+    },
+    'isHover': {
+      type: Boolean,
+      default: false,
+    },
+    'isClick': {
+      type: Boolean,
+      default: false,
+    },
+    'isFoucus': {
+      type: Boolean,
+      default: false,
+    },
+    'isActive': {
+      type: Boolean,
+      default: false,
     }
   },
   computed: {
@@ -85,7 +103,7 @@ export default {
 </script>
 
 <style scoped>
-button {
+div {
   line-height: 1;
   text-align: center;
   -moz-user-select: -moz-none;
@@ -95,7 +113,7 @@ button {
   position: relative;
 }
 
-div {
+.hover, .active, .focus {
   width: 100%;
   height: 100%;
   top: 0;
@@ -108,17 +126,6 @@ div {
   align-items: center;
   line-height: 1;
   text-align: center;
-}
-
-div span {
-}
-
-.float-shadow {
-  box-shadow: 0px -10px 20px #FFFFFF, 0px 10px 40px #B8C2CC;
-}
-
-.default-shadow {
-  box-shadow: -10px -10px 20px #FFFFFF, 10px 10px 20px #DAE0E6;
 }
 
 .style {
